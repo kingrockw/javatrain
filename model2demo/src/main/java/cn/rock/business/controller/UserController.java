@@ -11,9 +11,9 @@ import cn.rock.frame12.RequestMapping;
 public class UserController {
 
     @RequestMapping("getUser")
-    public Response getUser(){
+    public Response getUser(String name){
         UserService userService =  ApplicationContext.getBean(UserService.class);
-       User user =  userService.getUser();
+       User user =  userService.getUser(name);
        return  Response.ok(user);
     }
 }

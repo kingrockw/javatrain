@@ -6,6 +6,14 @@
   <display-name>Archetype Created Web Application</display-name>
 
 
+  <listener>
+    <listener-class>cn.rock.frame12.ContextLoaderListener</listener-class>
+  </listener>
+  <context-param>
+    <param-name>frame12config</param-name>
+    <param-value>frame12config/beans.conf</param-value>
+  </context-param>
+
   <servlet>
     <servlet-name>dispatcher</servlet-name>
     <servlet-class>cn.rock.frame12.DispatcherServlet</servlet-class>
@@ -13,8 +21,38 @@
       <!--<param-name>contextConfigLocation</param-name>-->
       <!--<param-value>classpath:spring-mvc*.xml</param-value>-->
     <!--</init-param>-->
+      <init-param>
+          <param-name>controller-package</param-name>
+          <param-value>cn.rock.business.controller</param-value>
+      </init-param>
     <load-on-startup>1</load-on-startup>
   </servlet>
+
+  <servlet-mapping>
+    <servlet-name>default</servlet-name>
+    <url-pattern>*.ico</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>default</servlet-name>
+    <url-pattern>*.png</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>default</servlet-name>
+    <url-pattern>*.html</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>default</servlet-name>
+    <url-pattern>*.jpg</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>default</servlet-name>
+    <url-pattern>*.js</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>default</servlet-name>
+    <url-pattern>*.css</url-pattern>
+  </servlet-mapping>
+
   <servlet-mapping>
     <servlet-name>dispatcher</servlet-name>
     <!-- 拦截所有/* 的请求,交给DispatcherServlet处理,性能最好 -->
