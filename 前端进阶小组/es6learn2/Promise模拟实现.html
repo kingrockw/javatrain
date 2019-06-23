@@ -32,17 +32,14 @@
 
             this.resolveCallBack.forEach((item, key, arr) => {
                 param = item(param)
-                // arr.shift()
             })
         }
 
         function reject() {
             this.status = PromiseStatusEnum.REJECTED
-            let args = Array.prototype.slice.call(arguments)
-
-            this.rejectCallBack.forEach((item, key, arr) => {
-                item.apply(null, args)
-                arr.shift()
+            let param = arguments[0]
+            this.rejectCallBack.forEach((item) => {
+                param = item(param)
             })
         }
 
@@ -54,15 +51,16 @@
 
 
     Promise.prototype.then = function (resolveFun,rejectFun) {
-        if (typeof resolveFun === 'function') {
+        if (resolveFun) {
             this.resolveCallBack.push(resolveFun);
-        } else {
-            throw new Error('缺少回调函数');
         }
-        this.rejectCallBack.push(resolveFun);
+
+        if (rejectFun){
+            this.rejectCallBack.push(rejectFun);
+        }
         return this;
     }
-    debugger
+
     // var promise = new Promise(function (resolve, reject) {
     //     resolve("123")
     // })
@@ -71,16 +69,14 @@
     // })
 
     var p = new Promise((resolve,reject)=>{
-        debugger
         var flag = Math.random();
-        if (true){
+        if (flag<0.5){
             resolve("ok")
         }else {
             reject("errr")
         }
     })
     p.then((data)=>{
-        debugger
         console.log(data)
         return data+"2"
     },(err)=>{
@@ -88,6 +84,15 @@
     }).then((data)=>{
         console.log(data)
     })
+
+    //不支持setTimeout写法
+    // setTimeout(()=>{
+    //     p.then((data)=>{
+    //         debugger
+    //         console.log('settimeout'+data)
+    //         return data+"2"
+    //     })
+    // })
 </script>
 <body>
 

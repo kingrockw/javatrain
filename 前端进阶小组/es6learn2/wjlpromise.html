@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>wjlpromise</title>
+</head>
+<script>
+    const status = {
+        P:'pending',
+        F:'fulfilled',
+        R:'reject'
+    }
+    function Promise(execute) {
+        this.status = status.P
+        this.data = null;
+        this.rejectCallBack = []
+        this.resolveCallBack = []
+        var self = this
+        function resolve(value) {
+            //状态一旦改变就无法再更改
+            if (self.status == status.P) {
+                self.status = status.F
+                self.data = value
+                self.resolveCallBack.forEach((item)=>{
+                    item(value)
+                })
+            }
+        }
+
+        function reject(value) {
+            if (self.status == status.P) {
+                self.status = status.R
+                self.data = value
+                self.rejectCallBack.forEach((item)=>{
+                    item(value)
+                })
+            }
+        }
+        try {
+            execute(resolve,reject)
+        }catch (e) {
+        }
+
+
+    }
+    Promise.prototype.then = function (resolveFn, rejectFn) {
+        var that = this;
+        if (that.status == status.F) {
+            return new Promise(function (resolve, reject) {
+                setTimeout(function () {
+                    try {
+                        var x = resolveFn(that.data);
+                        resolve(x);
+                    } catch (e) {
+                        return reject(e)
+                    }
+                })
+            })
+        }else if (that.status == status.R){
+            return new Promise(function (resolve, reject) {
+                setTimeout(function () {
+                    try {
+                        var x = rejectFn(that.data);
+                        resolve(x);
+                    } catch (e) {
+                        return reject(e)
+                    }
+                })
+            })
+        }else {
+            that.resolveCallBack.push(resolveFn)
+            that.rejectCallBack.push(rejectFn)
+        }
+    }
+    Promise.prototype.catch = function (rejectFn) {
+       return this.then(null,rejectFn)
+    }
+
+
+</script>
+<body>
+
+</body>
+</html>

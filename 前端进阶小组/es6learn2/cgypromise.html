@@ -115,21 +115,50 @@
     var p = new Promise((resolve,reject)=>{
         debugger
         var flag = Math.random();
-        if (flag<0.5){
+        if (1){
             resolve("ok")
         }else {
             reject("errr")
         }
     })
-    p.then((data)=>{
+    var p1 = new Promise((resolve,reject)=>{
+        debugger
+        var flag = Math.random();
+        if (1){
+            resolve("ok")
+            resolve("ok11111111111111")
+        }else {
+            reject("errr")
+        }
+    })
+    p1.then((data)=>{
         debugger
         console.log(data)
         return data+"2"
-    },(err)=>{
-        console.log(err)
-    }).then((data)=>{
-        console.log(data)
     })
+    // Promise.all([p,p1]).then((d)=>{
+    //     console.log(d)
+    // },(e)=>{
+    //     console.log(e)
+    // })
+
+    setTimeout(()=>{
+        p1.then((data)=>{
+            debugger
+            console.log('settimeout'+data)
+            return data+"2"
+        })
+    })
+
+    // p.then((data)=>{
+    //     debugger
+    //     console.log(data)
+    //     return data+"2"
+    // },(err)=>{
+    //     console.log(err)
+    // }).then((data)=>{
+    //     console.log(data)
+    // })
 
 
 </script>
