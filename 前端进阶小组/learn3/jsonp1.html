@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+
+//    https://segmentfault.com/a/1190000011145364
+
+    var script = document.createElement('script');
+    script.type = 'text/javascript';
+
+    // 传参一个回调函数名给后端，方便后端返回时执行这个在前端定义的回调函数
+    script.src = 'http://tcwlservice.17usoft.com/crm/api/listProjectEnum?callback=handleCallback';
+    document.head.appendChild(script);
+    debugger
+    // 回调执行函数
+    function handleCallback(res) {
+        debugger
+        alert(JSON.stringify(res));
+    }
+</script>
+</body>
+</html>

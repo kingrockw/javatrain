@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>paging</title>
+</head>
+<script>
+    async function myajax(params) {
+        return {
+            res: params.url + 'res',
+            count:50,
+            data:`第${params.pageNumber}页的数据`
+        }
+//        return new Promise((resolve,reject)=>{
+//            resolve({
+//                params: params,
+//                res: params.url + 'res'
+//            })
+//        })
+    }
+//    (async ()=>{
+//        var ss = await  myajax({ url:'123'})
+//        console.log(ss)
+//    })()
+
+
+    function Paging(params) {
+        this.pageNumber = isNaN(params.pageNumber) ? 1 : parseInt(params.pageNumber) < 1 ? 1 : parseInt(params.pageNumber)
+        this.pageSize = isNaN(params.pageSize) ? 10 : parseInt(params.pageSize) < 1 ? 10 : parseInt(params.pageSize)
+        this.url = params.url
+        this.request = params.request
+        this.callback = params.callback
+        this.divId = params.divId
+    }
+//    Paging.prototype.total = 0
+//    Paging.prototype.data = {}
+//    Paging.prototype.totalPage = 5
+    Paging.prototype.init = async function () {
+        var result = await myajax({
+            url:this.url,
+            pageNumber: this.pageNumber,
+            pageSize: this.pageSize,
+            request: this.request,
+        })
+        console.log(result)
+        this.total = result.count
+        this.totalPage = result.count/this.pageSize
+        this.data = result.data
+        this.callback && this.callback(this.data)
+        var paint = document.getElementById(this.divId)
+        var a1 = document.createElement("a");
+        a1.href = 'javascript:;'
+        a1.innerText = '[首页] '
+        a1.onclick =  ()=>  {
+            this.pageChange(1)
+        }
+
+        var a2 = document.createElement("a");
+        a2.href = 'javascript:;'
+        a2.innerText = ' 上一页 '
+        a2.onclick =  ()=> {
+            console.log(' 上一页 ')
+            if (this.pageNumber > 0){
+                this.pageChange(this.pageNumber - 1)
+            }
+        }
+
+        var a3 = document.createElement("a");
+        a3.href = 'javascript:;'
+        a3.innerText = '  下一页 '
+        a3.onclick = ()=> {
+            console.log(' 下一页 ')
+            if (this.pageNumber < this.totalPage){
+                this.pageChange(this.pageNumber + 1)
+            }
+        }
+
+        var a4 = document.createElement("a");
+        a4.href = 'javascript:;'
+        a4.innerText = ' [尾页] '
+        a4.onclick =  ()=>  {
+            console.log('尾页')
+            this.pageChange(this.totalPage)
+        }
+
+        var a5 = document.createElement("span");
+        a5.innerText = ' 共'+this.totalPage+ '页 '
+
+        paint.innerHTML = ''
+        paint.appendChild(a1)
+        paint.appendChild(a2)
+        paint.appendChild(a3)
+        paint.appendChild(a4)
+        paint.appendChild(a5)
+
+//        paint.innerHTML = `<a href="javascript:;" onclick="pageChange(1)">首页</a>  <a href="javascript:;" onclick="pageChange(1)">尾页</a>`
+    }
+//    Paging.prototype.render = function () {
+//        (async () => {
+//            await this.init()
+//        })()
+//    }
+
+    Paging.prototype.pageChange = function (pageNumber, pageSize) {
+            if (pageNumber){
+                this.pageNumber = pageNumber
+            }
+            if(pageSize){
+                this.pageSize = pageSize
+            }
+            this.init()
+    }
+
+    function fullContent(value){
+        var content = document.getElementById('content')
+        content.innerHTML = value
+    }
+
+    function load(){
+        console.log('loaddddd')
+        var myPage = new Paging({
+            url:'http://aaa.com/bbb',
+            request:{},
+            pageNumber:1,
+            pageSize:10,
+            callback:fullContent,
+            divId:'pagingDiv'
+        })
+        myPage.init()
+    }
+
+</script>
+<body onload="load()">
+
+
+<div id="content">
+
+</div>
+
+<div id="pagingDiv">
+
+</div>
+
+</body>
+</html>

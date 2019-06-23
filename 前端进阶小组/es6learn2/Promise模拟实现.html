@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<script>
+    class PromiseStatusEnum {
+        static get PENDING() {
+            return 'pending'
+        }
+
+        static get FULFILLED() {
+            return 'fulfilled'
+        }
+
+        static get REJECTED() {
+            return 'rejected'
+        }
+    }
+
+    function Promise(execute) {
+        debugger
+        this.data = null;
+        this.status = PromiseStatusEnum.PENDING
+        this.resolveCallBack = []
+        this.rejectCallBack = []
+
+        function resolve() {
+            this.status = PromiseStatusEnum.FULFILLED
+            let args = Array.prototype.slice.call(arguments)
+
+            this.resolveCallBack.forEach((item, key, arr) => {
+                item.apply(null, args)
+                arr.shift()
+            })
+        }
+
+        function reject() {
+            this.status = PromiseStatusEnum.REJECTED
+            let args = Array.prototype.slice.call(arguments)
+
+            this.rejectCallBack.forEach((item, key, arr) => {
+                item.apply(null, args)
+                arr.shift()
+            })
+        }
+
+        execute.call(this,resolve,reject)
+    }
+
+    Promise.prototype.reject = function () {
+        this.status = PromiseStatusEnum.REJECTED
+        let args = Array.prototype.slice.call(arguments)
+
+        this.rejectCallBack.forEach((item, key, arr) => {
+            item.apply(null, args)
+            arr.shift()
+        })
+    }
+
+
+    Promise.prototype.then = function (resolveFun) {
+        if (typeof resolveFun === 'function') {
+            this.resolveCallBack.push(resolveFun);
+        } else {
+            throw new Error('缺少回调函数');
+        }
+        return this;
+    }
+    debugger
+    var promise = new Promise((resolve,reject)=>{
+        resolve("123")
+    })
+    promise.then((val)=>{
+        console.log(val)
+    })
+</script>
+<body>
+
+</body>
+</html>

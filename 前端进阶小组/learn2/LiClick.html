@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<script>
+
+    function load() {
+        let ul = document.getElementById("123")
+        let liList = ul.children
+        let length = liList.length
+        var arr = []
+        for(var i = 0 ; i<length; i++){
+//            liList[i].onclick = function () {
+//                console.log(i++)
+//            }
+            arr.push(i);
+            (function (j,i) {
+                liList[i].onclick = function () {
+                    console.log(j)
+                }
+            })(arr,i)
+        }
+    }
+
+    function load() {
+        let ul = document.getElementById("123")
+        let liList = ul.children
+        let length = liList.length
+        for(let i = 0 ; i<length; i++){
+            liList[i].onclick = function () {
+                console.log(i)
+            }
+        }
+    }
+</script>
+<body onload="load()">
+<ul id="123">
+    <li>A</li>
+    <li>B</li>
+    <li>C</li>
+    <li>D</li>
+    <li>E</li>
+</ul>
+
+</body>
+</html>

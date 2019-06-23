@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<script>
+    var Promise = function (executor) {
+        this.status = "pending";
+        this.data = undefined;
+        this.resolveCallback = [];
+        this.rejectCallBack = [];
+        var that = this;
+        function resolve(value) {
+            if (that.status == "pending") {
+                that.status = "resolved";
+            }
+            that.data = value;
+            for (let item of that.resolveCallback) {
+                item(value);
+            }
+        }
+        function reject(value) {
+            if (that.status == "pending") {
+                that.status = "rejected";
+            }
+            that.data = value;
+            for (let item of that.rejectCallBack) {
+                item(value);
+            }
+        }
+        try {
+            executor(resolve, reject);
+        } catch(err) {}
+    }
+    Promise.prototype.catch = function (onRejected) {
+        return this.then(null, onRejected);
+    }
+    Promise.prototype.then = function (onFulfilled, onRejected) {
+        onFulfilled = typeof onFulfilled === 'function' ?
+            onFulfilled :
+            function (value) {
+                return value
+            };
+        onRejected = typeof onRejected === 'function' ?
+            onRejected :
+            function (reason) {
+                throw reason
+            };
+        var that = this;
+        if (this.status === 'resolved') {
+            return new Promise(function (resolve, reject) {
+                setTimeout(function () {
+                    try {
+                        var x = onFulfilled(that.data);
+                        resolve(x);
+                    } catch (e) {
+                        return reject(e)
+                    }
+                })
+            })
+        }
+        if (this.status === 'rejected') {
+            return new Promise(function (resolve, reject) {
+                setTimeout(function () {
+                    try {
+                        var x = onRejected(that.data)
+                        resolve(x);
+                    } catch (e) {
+                        return reject(e)
+                    }
+                })
+            })
+        }
+        if (that.status == "pending") {
+            this.resolveCallback.push(onFulfilled);
+            this.rejectCallBack.push(onRejected);
+        }
+    }
+    Promise.prototype.finally = function (onFinally) {
+        let P = this.constructor;
+        return this.then(
+            value => P.resolve(onFinally()).then(() => value),
+            reason => P.resolve(onFinally()).then(() => {
+                throw reason
+            })
+        );
+    }
+    Promise.resolve = function (value) {
+        var promise = new Promise(function (resolve, reject) {
+            resolve(value);
+        })
+        return promise;
+    }
+    Promise.reject = function (reason) {
+        return new Promise(function (resolve, reject) {
+            reject(reason);
+        })
+    }
+    Promise.all = function (fn) {
+        return Promise.resolve().then(fn);
+    }
+    Promise.race = function (promises) {
+        return new Promise(function (resolve, reject) {
+            for (var i = 0; i < promises.length; i++) {
+                Promise.resolve(promises[i]).then(function (value) {
+                    return resolve(value);
+                }, function (reason) {
+                    return reject(reason);
+                })
+            }
+        })
+    }
+
+</script>
+<body>
+
+</body>
+</html>
