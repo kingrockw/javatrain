@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    var Person = function (name,age) {
+        this.name = name
+        this.age = age
+        // function getName() {
+        //     return this.name
+        // }
+    }
+    Person.prototype.getName = function () {
+        return this.name
+    }
+
+    var p1 = new Person('lili',15)
+    var n = p1.getName()
+</script>
+</body>
+</html>

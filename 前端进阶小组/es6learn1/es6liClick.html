@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<script>
+    window.onload = function () {
+        var root = document.getElementById("test_ul_id");
+        var childrens = root.children;
+        if (childrens && childrens.length > 0){
+            for(let index = 0; index < childrens.length; index++){
+                childrens[index].onclick = function () {
+                    console.log(index)
+                }
+            }
+        }
+    }
+</script>
+<body>
+<div>
+    <ul id="test_ul_id">
+        <li>Java</li>
+        <li>Spring</li>
+        <li>Spring MVC</li>
+        <li>Mysql</li>
+        <li>Mybatis</li>
+    </ul>
+</div>
+</body>
+</html>

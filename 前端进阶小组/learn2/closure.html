@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>closure</title>
+</head>
+<body>
+    <script>
+        var a = 1;
+        function foo() {
+            console.log(a);
+        }
+        foo();
+
+        var scope = "global scope";
+        function checkscope(){
+            var scope = "local scope";
+            function f(){
+                return scope;
+            }
+            return f;
+        }
+
+        var foo = checkscope();
+        foo();
+
+    </script>
+</body>
+</html>

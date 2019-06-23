@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    var A = function(){
+        console.log('123')
+    }
+
+    var b = new A();
+    A.prototype.n = 1;
+    A.prototype = {
+        n:2,
+        m:3
+    };
+    A.prototype.m = 4
+    var c = new A();
+    console.log(b.n,b.m,c.n,c.m);
+
+
+
+
+</script>
+</body>
+</html>

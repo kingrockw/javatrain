@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<script>
+    class Student{
+        constructor(age,name){
+            this.age = age
+            this.name =name // name 属性时关键字
+        }
+        sayHello(){
+            console.log('hello, I am ' + this.name)
+        }
+        get age(){
+            console.log("get age")
+//            return this.age //死循环
+        }
+        set age(val){
+//            this.age = val // 死循环
+            console.log("set age" + val)
+        }
+//        static nnn = 123;
+        static running(){
+            console.log('running')
+        }
+    }
+//    Student() 只能通过new 关键字构造
+    var stu = new Student(10,"tom")
+    stu.sayHello()
+    stu.age = 10
+    console.log(stu.age)
+//    stu.running() // 报错，实例无法调用静态方法
+    debugger
+    Student.running() //静态方法不在原型链上
+    console.log(Student.nnn)
+</script>
+
+<body>
+
+</body>
+</html>

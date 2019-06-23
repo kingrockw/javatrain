@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<script>
+    var length = 10
+    var obj = {
+        length:5,
+        func1:function () {
+            console.log(this.length)
+        }
+    }
+    obj.func1(); //5
+    var f1 = obj.func1;
+    f1();//10
+    new f1(); //10     为什么是undefined?  new关键字让this指向函数本身
+
+
+</script>
+<body>
+
+</body>
+</html>
