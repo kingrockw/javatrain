@@ -111,6 +111,26 @@
             }
         })
     }
+    debugger
+    var p = new Promise((resolve,reject)=>{
+        debugger
+        var flag = Math.random();
+        if (flag<0.5){
+            resolve("ok")
+        }else {
+            reject("errr")
+        }
+    })
+    p.then((data)=>{
+        debugger
+        console.log(data)
+        return data+"2"
+    },(err)=>{
+        console.log(err)
+    }).then((data)=>{
+        console.log(data)
+    })
+
 
 </script>
 <body>
