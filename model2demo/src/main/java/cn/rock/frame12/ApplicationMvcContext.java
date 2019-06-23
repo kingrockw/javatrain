@@ -18,7 +18,7 @@ public class ApplicationMvcContext {
         return mvcContext.get(requestURI);
     }
 
-    private static void init(String controllerPath) throws IOException {
+    public static void init(String controllerPath) throws IOException {
 
         // 是否循环迭代
         boolean recursive = true;
@@ -26,7 +26,7 @@ public class ApplicationMvcContext {
         String packageName = controllerPath;
         String packageDirName = packageName.replace('.', '/');
 
-        Enumeration<URL> dirs = ApplicationMvcContext.class.getClassLoader().getResources(packageDirName);
+        Enumeration<URL> dirs = Thread.currentThread().getContextClassLoader().getResources(packageDirName);
 
         while (dirs.hasMoreElements()) {
             // 获取下一个元素
@@ -55,12 +55,12 @@ public class ApplicationMvcContext {
 
             }
             if (o != null){
-                Method[] methods = item.getMethods();
+                Method[] methods = item.getDeclaredMethods();
                 for(Method method : methods){
                     RequestMapping annotation = method.getAnnotation(RequestMapping.class);
                     if (null != annotation){
                         String path = annotation.value();
-                        MvcDefine mvcDefine = new MvcDefine(path,method,o);
+                        MvcDefine mvcDefine = new MvcDefine(path,method,o,item);
                         mvcContext.put(path,mvcDefine);
                     }
                 }
@@ -105,8 +105,9 @@ public class ApplicationMvcContext {
                 try {
                     //classes.add(Class.forName(packageName + '.' + className));
                     //经过回复同学的提醒，这里用forName有一些不好，会触发static方法，没有使用classLoader的load干净
-                    Class<?> clazz = Thread.currentThread().getContextClassLoader()
-                            .loadClass(packageName + '.' + className);
+                    Class<?> clazz = Class.forName(packageName + '.' + className);
+//                    Class<?> clazz = Thread.currentThread().getContextClassLoader()
+//                            .loadClass(packageName + '.' + className);
 
                     Controller annotation = clazz.getAnnotation(Controller.class);
                     if (null != annotation){
@@ -130,10 +131,15 @@ public class ApplicationMvcContext {
 
         private Object target;
 
-        public MvcDefine(String path, Method method, Object target) {
+        private Class<?> clazz;
+
+
+
+        public MvcDefine(String path, Method method, Object target, Class<?> item) {
             this.path = path;
             this.method = method;
             this.target = target;
+            this.clazz = item;
         }
 
         public String getPath() {
@@ -158,6 +164,14 @@ public class ApplicationMvcContext {
 
         public void setTarget(Object target) {
             this.target = target;
+        }
+
+        public Class<?> getClazz() {
+            return clazz;
+        }
+
+        public void setClazz(Class<?> clazz) {
+            this.clazz = clazz;
         }
     }
 }
