@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace命名空间特殊作用： 如果使用mapper动态代理方法，这里就需要配置mapper接口地址-->
+<!--一对一查询-->
+<mapper namespace="cn.rock.mybatis.BlogMapper">
+
+	<resultMap id="blogMap" type="cn.rock.entity.Blog">
+		<id column="id" property="blogId"></id>
+		<result column="title" property="title"></result>
+		<result column="content" property="content"></result>
+		<result column="addDate" property="addDate"></result>
+		<result column="userId" property="userId"></result>
+	</resultMap>
+	<select id="findBlogById" resultMap="blogMap">
+		SELECT * FROM blog WHERE blogId = #{blogId}
+	</select>
+
+
+	<insert id="insertBlog"  useGeneratedKeys="true" keyProperty="blogId">
+		insert into blog(userId,title,content,addDate) values(#{userId},#{title},#{content},now())
+	</insert>
+	
+	<!-- 根据主键删除用户 -->
+	
+	<!--<delete id="deleteUser" parameterType="int">-->
+	   <!--delete from user where id=#{id}-->
+	<!--</delete>-->
+
+
+	<!--sql 注入示例-->
+	<!--<select id="getUserWithInjection" parameterType="string" resultType="cn.rock.mybatis.po.User">-->
+		<!--SELECT * FROM USER WHERE id = ${value}-->
+	<!--</select>-->
+</mapper>
