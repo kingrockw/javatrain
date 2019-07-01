@@ -18,25 +18,25 @@
         console.log('yellow');
     }
 
-    // function run() {
-    //     setTimeout(() => {
-    //         red()
-    //         setTimeout(() => {
-    //             green()
-    //             setTimeout(() => {
-    //                 yellow()
-    //                 run()
-    //             },2000)
-    //         }, 1000)
-    //     }, 3000)
-    // }
-    // run()
+     function run() {
+        let  id = setTimeout(() => {
+             red()
+             setTimeout(() => {
+                 green()
+                 setTimeout(() => {
+                     yellow()
+                     run()
+                 },1)
+             }, 2)
+         }, 3)
+     }
+     run()
 
     let getRedPromise = function () {
         return new Promise((resolve,reject)=>{
             setTimeout(()=>{
                 red()
-                resolve()
+                resolve({aa:11},11)
             },3000)
         })
     }
@@ -68,16 +68,7 @@
             runPromise()
         })
     }
-    runPromise()
-
-    // var p = new Promise((resolve,reject)=>{
-    //     setTimeout(()=>{
-    //         red()
-    //         resolve()
-    //     },3000)
-    // }).then(()=>{
-    //
-    // })
+//    runPromise()
 
 
 </script>
