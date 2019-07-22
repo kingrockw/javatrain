@@ -7,18 +7,64 @@
 <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
 
 <body>
-    <div id="app">{{message}}</div>
+    <div id="app">
+        {{message}}
+    </div>
 </body>
 
 <script>
-    debugger
-    new Vue({
+   var vm = new Vue({
         el:'#app',
         data() {
             return {
                 message:'hello'
             }
-        }
+        },
+        // render(h){
+        //    return h("div",this.message)
+        // },
+        beforeCreate(){
+            debugger
+            console.log("beforeCreate, data:"+this.message)
+            console.log("beforeCreate, el:"+this.$el)
+
+        },
+        created(){
+            debugger
+            console.log("created，data:"+this.message)
+            console.log("created, el:"+this.$el)
+        },
+        beforeMount(){
+            debugger
+            console.log("beforeMounted，data:"+this.message)
+            console.log("beforeMounted, el:"+this.$el)
+        },
+        mounted(){
+            debugger
+            console.log("mounted，data:"+this.message)
+            console.log("mounted, el:"+this.$el)
+        },
+        beforeUpdate(){
+            debugger
+            console.log("beforeUpdate，data:"+this.message)
+            console.log("beforeUpdate, el:"+this.$el)
+        },
+        updated(){
+            debugger
+            console.log("updated，data:"+this.message)
+            console.log("updated, el:"+this.$el)
+        },
+       beforeDestroy(){
+           debugger
+           console.log("beforeDestroy，data:"+this.message)
+           console.log("beforeDestroy, el:"+this.$el)
+       },
+       destroyed(){
+           debugger
+           console.log("destroyed，data:"+this.message)
+           console.log("destroyed, el:"+this.$el)
+
+       }
     })
 </script>
 

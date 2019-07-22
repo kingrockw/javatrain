@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
+</head>
+<style>
+    .rightClass{
+        text-align: right;
+        background: aquamarine;
+        padding: 10px;
+    }
+    .leftClass {
+        text-align: left;
+        background: chartreuse;
+        padding: 10px;
+    }
+</style>
+<body>
+<!--<div id="app">-->
+<!--<div>{{contentList}}</div>-->
+<!--</div>-->
+
+</body>
+<script>
+    let root = new Vue({
+        'template': `
+                <div style="margin: auto;width:600px;padding: 10px">
+               <div v-for="item in contentList">
+                <div :class="{rightClass: item.direction == 2,leftClass: item.direction == 1}">
+                    <div v-if="item.type == 'text'">{{item.content}}</div>
+                    <div v-else-if="item.type == 'image'">
+                       <img :src="item.content">
+                    </div>
+                </div>
+                </div>
+                </div>
+        `,
+        el: "#app",
+        data() {
+            return {
+                contentList: [
+                    {content: "你好，你好~~", type: "text", direction: "1"}, //客人
+
+                    {content: "您好，请问有啥能帮助您的？", type: "text", direction: "2"},//客服
+
+                    {
+                        content: "https://www.tapd.cn/tfl/pictures/201907/tapd_22281431_1563450316_63.png",
+                        type: "image", direction: "1"
+                    },//客人
+
+                    {content: "帮我看下这个价格是否有问题", type: "text", direction: "1"},//客人
+
+                    {content: "看到您的问题了，稍等", type: "text", direction: "2"},//客服
+
+                ]
+            }
+        }
+    })
+    debugger
+    document.body.appendChild(root.$el)
+
+
+    /**
+     * 1, vue 实现双向绑定的原理？
+     * 2，vue的el和template属性是什么关系？
+     */
+</script>
+</html>
