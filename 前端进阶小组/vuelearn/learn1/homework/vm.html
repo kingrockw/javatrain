@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="message">
+    {{message}}
+</div>
+</body>
+<script>
+    var data = {}
+
+    Object.defineProperty(data,'message',{
+//        value:'hello',
+        configurable:false,
+        enumerable:false,
+        get(){
+            console.log(data._message)
+            return data._message
+        },
+        set(val){
+            data._message = val
+        }
+    })
+    console.log("root:"+data.message)
+</script>
+</html>
