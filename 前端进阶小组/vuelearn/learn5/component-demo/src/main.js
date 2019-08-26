@@ -2,7 +2,7 @@ import Vue from "vue";
 import App from "./App.vue";
 import router from "./router";
 import store from "./store";
-
+import mydialog from './components/mydialog/pluginIndex'
 Vue.config.productionTip = false;
 
 
@@ -18,6 +18,8 @@ Vue.config.productionTip = false;
 //         })
 //     }, 1000)
 // })
+
+Vue.use(mydialog)
 
 new Vue({
   router,
