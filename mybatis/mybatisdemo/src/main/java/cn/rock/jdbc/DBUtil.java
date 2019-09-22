@@ -14,7 +14,7 @@ public class DBUtil {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			url="jdbc:mysql://localhost:3306/mybatisdemo?characterEncoding=utf-8&serverTimezone=GMT%2B8";
 			user = "root";
-			password = "king";
+			password = "rock";
 		} catch (Exception e) {
 			System.out.println("驱动加载失败");
 			e.printStackTrace();
