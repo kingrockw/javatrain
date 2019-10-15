@@ -1,6 +1,6 @@
 const path = require('path')
 const webpack = require('webpack')
-
+const ConsoleLogOnBuildWebpackPlugin = require('./src/plugin/ConsoleLogOnBuildWebpackPlugin.js')
 module.exports = {
     mode: 'production',
     entry: './src/index.js',
@@ -35,9 +35,14 @@ module.exports = {
                 use: [
                     'xml-loader'
                 ]
+            },
+            {
+                test:/\.tpl\.html$/,
+                use:['tpl-loader']
             }
         ]
-    }
+    },
+    plugins:[new ConsoleLogOnBuildWebpackPlugin()]
 
 }
 
